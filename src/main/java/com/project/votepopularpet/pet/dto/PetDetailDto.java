@@ -2,9 +2,7 @@ package com.project.votepopularpet.pet.dto;
 
 import com.project.votepopularpet.pet.entity.Pet;
 import com.project.votepopularpet.pet.entity.util.BaseEntity;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 /**
  * PetDetailDto
@@ -15,6 +13,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PetDetailDto {
 
     private Long petId;

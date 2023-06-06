@@ -1,12 +1,20 @@
 package com.project.votepopularpet.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.time.Duration;
 
 /**
  * RedisConfig.java
@@ -30,7 +38,11 @@ public class RedisConfig {
      */
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(host);
+        redisStandaloneConfiguration.setPort(port);
+        return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
     /**
@@ -48,13 +60,27 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
+//
+//    @Bean
+//    public StringRedisTemplate stringRedisTemplate() {
+//        final StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
+//        stringRedisTemplate.setKeySerializer(new StringRedisSerializer());
+//        stringRedisTemplate.setValueSerializer(new StringRedisSerializer());
+//        stringRedisTemplate.setConnectionFactory(redisConnectionFactory());
+//        return stringRedisTemplate;
+//    }
 
     @Bean
-    public StringRedisTemplate stringRedisTemplate() {
-        final StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
-        stringRedisTemplate.setKeySerializer(new StringRedisSerializer());
-        stringRedisTemplate.setValueSerializer(new StringRedisSerializer());
-        stringRedisTemplate.setConnectionFactory(redisConnectionFactory());
-        return stringRedisTemplate;
+    public CacheManager cacheManager() { // Redis를 캐시 메모리로 사용하도록 구성하고 이후 캐시관련 애노테이션에서 사용됨
+        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.
+                RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory());
+
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .entryTtl(Duration.ofMinutes(10));  //  캐시 엔트리의 TTL(Time-To-Live)를 설정하며, 이 예제에서는 10분으로 설정
+
+        builder.cacheDefaults(config);
+        return builder.build();
     }
 }
