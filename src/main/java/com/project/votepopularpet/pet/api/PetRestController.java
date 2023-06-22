@@ -5,6 +5,9 @@ import com.project.votepopularpet.pet.service.PetCommandService;
 import com.project.votepopularpet.pet.service.PetQueryService;
 import lombok.RequiredArgsConstructor;
 import com.project.votepopularpet.pet.entity.Pet;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +49,15 @@ public class PetRestController {
     public ResponseEntity<PetDetailDto> findPetInfoById (@PathVariable Long id) {
 
         return new ResponseEntity<>(petCommandService.findPetDetailDtoById(id), HttpStatus.OK);
+    }
+
+    /**
+     * pet 리스트 조회
+     * @return
+     */
+    @GetMapping("/list")
+    public ResponseEntity<Page<PetDetailDto>> findPetInfoPageableList (@PageableDefault(page = 0, size = 20) Pageable pageable) {
+
+        return new ResponseEntity<>(petCommandService.findPetInfoPageableList(pageable), HttpStatus.OK);
     }
 }

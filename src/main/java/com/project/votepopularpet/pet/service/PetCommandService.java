@@ -2,11 +2,18 @@ package com.project.votepopularpet.pet.service;
 
 import com.project.votepopularpet.common.exception.EntityNotFoundException;
 import com.project.votepopularpet.pet.dto.PetDetailDto;
-import com.project.votepopularpet.repository.PetRepository;
+import com.project.votepopularpet.pet.entity.Pet;
+import com.project.votepopularpet.pet.repository.PetRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * PetCommandService
@@ -35,5 +42,23 @@ public class PetCommandService {
     public PetDetailDto findPetDetailDtoById(Long id) {
             PetDetailDto petInfo = petRepository.findById(id).map(PetDetailDto::of).orElseThrow(() -> new EntityNotFoundException("해당 정보를 찾을 수 없습니다."));
             return petInfo;
+    }
+
+    /**
+     *
+     * @param pageable
+     * @return
+     */
+    @Cacheable(value="pet-list", key="#id", unless = "#result == null")
+    public Page<PetDetailDto> findPetInfoPageableList(Pageable pageable) {
+
+        Page<Pet> petInfoList = petRepository.findAll(pageable);
+        List<PetDetailDto> petDetailDtoList = petInfoList
+                .getContent()
+                .stream()
+                .map(PetDetailDto::of)
+                .toList();
+
+        return new PageImpl<>(petDetailDtoList, petInfoList.getPageable(), petInfoList.getTotalElements());
     }
 }

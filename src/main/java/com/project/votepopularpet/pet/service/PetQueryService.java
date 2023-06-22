@@ -1,7 +1,7 @@
 package com.project.votepopularpet.pet.service;
 
 import com.project.votepopularpet.pet.entity.Pet;
-import com.project.votepopularpet.repository.PetRepository;
+import com.project.votepopularpet.pet.repository.PetRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
