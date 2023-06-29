@@ -43,4 +43,7 @@ public class Pet extends BaseEntity implements Serializable {
 
     @Column(name="VOTE_COUNT")
     private Integer voteCount;
+
+    @OneToMany(mappedBy = "petId")
+    private List<Like> likeList;
 }

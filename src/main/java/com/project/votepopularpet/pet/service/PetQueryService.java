@@ -24,6 +24,7 @@ public class PetQueryService {
      * @param pet
      */
     public void createNewPetInfo(Pet pet) {
+
         petRepository.save(pet);
     }
 }
