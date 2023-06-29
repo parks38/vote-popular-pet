@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * PetCommandService
@@ -45,12 +44,13 @@ public class PetCommandService {
     }
 
     /**
-     *
+     * Pet 리스트 조회
+     * pageNumber 당 item cache (fixed. item 개수)
      * @param pageable
      * @return
      */
-    @Cacheable(value="pet-list", key="#id", unless = "#result == null")
-    public Page<PetDetailDto> findPetInfoPageableList(Pageable pageable) {
+    @Cacheable(value="pet-list", key="#pageable.pageNumber", cacheManager = "cacheManager")
+    public List<PetDetailDto> findPetInfoPageableList(Pageable pageable) {
 
         Page<Pet> petInfoList = petRepository.findAll(pageable);
         List<PetDetailDto> petDetailDtoList = petInfoList
@@ -59,6 +59,6 @@ public class PetCommandService {
                 .map(PetDetailDto::of)
                 .toList();
 
-        return new PageImpl<>(petDetailDtoList, petInfoList.getPageable(), petInfoList.getTotalElements());
+        return petDetailDtoList;
     }
 }

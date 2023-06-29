@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * PetRestController
  *
@@ -56,7 +58,7 @@ public class PetRestController {
      * @return
      */
     @GetMapping("/list")
-    public ResponseEntity<Page<PetDetailDto>> findPetInfoPageableList (@PageableDefault(page = 0, size = 20) Pageable pageable) {
+    public ResponseEntity<List<PetDetailDto>> findPetInfoPageableList (@PageableDefault(page = 0, size = 20) Pageable pageable) {
 
         return new ResponseEntity<>(petCommandService.findPetInfoPageableList(pageable), HttpStatus.OK);
     }
