@@ -27,4 +27,6 @@ public class Like extends BaseEntity implements Serializable {
     @Column(name="Status")
     private Boolean Status;
 
+    @Column(name = "USER_ID")
+    private String userId;
 }
