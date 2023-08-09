@@ -1,13 +1,18 @@
 package com.project.votepopularpet.vote.producer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.text.MessageFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.votepopularpet.pet.entity.Likes;
+import com.project.votepopularpet.pet.entity.Pet;
+import com.project.votepopularpet.pet.repository.PetRepository;
+import java.util.ArrayList;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * JUnit5 Test Class.java.java
@@ -22,10 +27,30 @@ class VoteProducerTest {
   @Autowired
   VoteProducer voteProducer;
 
+  @Autowired
+  ObjectMapper objectMapper;
+  @Autowired
+  private PetRepository petRepository;
+
   @Test
+  @Transactional
   void setVoteProducer() {
 
-    voteProducer.produceVote(1L, 2L, () ->
-      MessageFormat.format("helllpo", "2019-01-01"));
+    Optional<Pet> pet = petRepository.findById(13L);
+
+    pet.ifPresent(p -> {
+
+      p.setLikeList(new ArrayList<>());
+      Likes like = new Likes();
+      like.setStatus(true);
+      like.setPet(p);
+      like.setUserId("suna.park");
+
+      try {
+        voteProducer.produceVote(like);
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+      }
+    });
   }
 }

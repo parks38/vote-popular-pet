@@ -1,6 +1,7 @@
 package com.project.votepopularpet.pet.dto;
 
 import lombok.Builder;
+import lombok.Data;
 
 /**
  * null.java
@@ -9,9 +10,9 @@ import lombok.Builder;
  * @createdDate 2023-07-03.
  */
 @Builder
-public record ScheduleEventDto (
-    long senderId,
-    long receiverId,
-    String feedMessage
-) {
+@Data
+public class ScheduleEventDto {
+  String senderId;
+  long receiverId;
+  Boolean status;
 }

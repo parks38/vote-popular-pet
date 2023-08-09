@@ -1,14 +1,15 @@
 package com.project.votepopularpet.pet.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.project.votepopularpet.pet.entity.util.BaseEntity;
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Pet
@@ -19,6 +20,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
+@Table(name="pets")
 public class Pet extends BaseEntity implements Serializable {
 
     @Serial
@@ -44,6 +46,6 @@ public class Pet extends BaseEntity implements Serializable {
     @Column(name="VOTE_COUNT")
     private Integer voteCount;
 
-    @OneToMany(mappedBy = "petId")
-    private List<Like> likeList;
+    @OneToMany(mappedBy = "pet")
+    private List<Likes> likeList;
 }

@@ -33,5 +33,5 @@ public abstract class BaseEntity {
 
     @UpdateTimestamp
     @Column(name="MODIFIED_DATE_TIME")
-    private LocalDateTime modifedDateTime;
+    private LocalDateTime modifiedDateTime;
 }
