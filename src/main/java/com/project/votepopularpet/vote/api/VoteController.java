@@ -32,9 +32,21 @@ public class VoteController {
    * @return
    */
   @PostMapping("/{petId}")
-  public ResponseEntity<Void> voteForPet (@PathVariable Long petId, @RequestBody Likes like) throws JsonProcessingException {
+  public ResponseEntity<Void> voteForPetMessageQueue (@PathVariable Long petId, @RequestBody Likes like) throws JsonProcessingException {
     try {
       voteService.produceLikeVotes(petId, like);
+    } catch (EntityNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @PostMapping("/test/{petId}")
+  public ResponseEntity<Void> voteForPet (@PathVariable Long petId, @RequestBody Likes like) throws JsonProcessingException {
+    try {
+      System.out.println("!!!!!!!!!!!!!!");
+      voteService.updateLikeVotes(petId, like);
     } catch (EntityNotFoundException e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

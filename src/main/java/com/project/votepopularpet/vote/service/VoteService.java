@@ -24,24 +24,9 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class VoteService {
 
-  private final LikeRepository likeRepository;
   private final PetRepository petRepository;
   private final VoteProducer voteProducer;
-
-  /**
-   *
-   * @param like
-   */
-  public void saveLikeVotes(Likes like) {
-
-    // 해당 값을 찾아서 동일한 것이 있다면 대체
-    Optional<Likes> originalLike = likeRepository.findByUserIdAndPetId(like.getUserId(), like.getPet().getPetId());
-    originalLike.ifPresentOrElse(orlike -> {
-      orlike.setStatus(like.getStatus());
-    }, () -> {
-      likeRepository.save(like);
-    });
-  }
+  private final LikeRepository likeRepository;
 
   /**
    *
@@ -58,5 +43,16 @@ public class VoteService {
     });
 
     voteProducer.produceVote(like);
+  }
+
+  public void updateLikeVotes (Long petId, Likes like) {
+
+    Optional<Pet> pet = petRepository.findById(petId);
+
+    pet.ifPresentOrElse(like::setPet, () -> {
+      throw new EntityNotFoundException();
+    });
+
+    likeRepository.save(like);
   }
 }
