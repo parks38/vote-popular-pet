@@ -39,8 +39,8 @@ public class PetCommandService {
      */
     @Cacheable(value="pet-detail", key="#id", unless = "#result == null")
     public PetDetailDto findPetDetailDtoById(Long id) {
-            PetDetailDto petInfo = petRepository.findById(id).map(PetDetailDto::of).orElseThrow(() -> new EntityNotFoundException("해당 정보를 찾을 수 없습니다."));
-            return petInfo;
+
+        return petRepository.findById(id).map(PetDetailDto::of).orElseThrow(() -> new EntityNotFoundException("해당 정보를 찾을 수 없습니다."));
     }
 
     /**
@@ -53,12 +53,10 @@ public class PetCommandService {
     public List<PetDetailDto> findPetInfoPageableList(Pageable pageable) {
 
         Page<Pet> petInfoList = petRepository.findAll(pageable);
-        List<PetDetailDto> petDetailDtoList = petInfoList
+        return petInfoList
                 .getContent()
                 .stream()
                 .map(PetDetailDto::of)
                 .toList();
-
-        return petDetailDtoList;
     }
 }

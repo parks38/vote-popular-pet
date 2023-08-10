@@ -25,12 +25,6 @@ public class PetDetailDto {
     private int voteCount;
 
     public static PetDetailDto of(Pet pet) {
-//        this.petId = pet.getPetId();
-//        this.name = pet.getName();
-//        this.imageUrl = pet.getImageUrl();
-//        this.title = pet.getTitle();
-//        this.description = pet.getDescription();
-//        this.voteCount = pet.getVoteCount();
         return PetDetailDto.builder()
                 .petId(pet.getPetId())
                 .name(pet.getName())

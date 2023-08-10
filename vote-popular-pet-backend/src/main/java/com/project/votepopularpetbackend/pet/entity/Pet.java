@@ -1,15 +1,18 @@
-package com.project.votepopularpet.pet.entity;
+package com.project.votepopularpetbackend.pet.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.project.votepopularpet.pet.entity.util.BaseEntity;
-import jakarta.persistence.*;
+import com.project.votepopularpetbackend.pet.entity.util.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.io.Serial;
-import java.io.Serializable;
 
 /**
  * Pet

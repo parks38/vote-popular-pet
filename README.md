@@ -6,21 +6,22 @@
 
 ### 📌 프로젝트 목표
 - 대규모 트래픽을 안정적으로 처리하기 위해 자주 활용되는 비동기 이벤트 처리 아키텍처 구현
--
+- rabbitMQ 통한 비동기 이벤트 처리 구현
+- Redis를 이용하여 Cache 구현 
+- CQRS 패턴을 적용하여 변경과 조회 책임의 분리한 아키텍쳐
 
 #### 💻 개발 환경
-Java, Spring-Boot, Kafka, Redis, MySQL, Naver-Cloud
+Java, Spring-Boot, RabbitMQ, Redis, MySQL
 
 #### 📌 시스템 아키텍쳐
 
-![시스템 아키텍쳐](/kafka-redis%20project//img//architecture.png)
+![시스템 아키텍쳐](/src/main/resources/PROJECT-1691631348038.jpeg)
 
 ### 📌 프로젝트 중점 사항
 
 - 버전 관리
 - 서버의 확장성
 - 의존적이지 않은 코드 작성
-- Jenkins 이용 CI/CD 환경 구축
 
 ### 📌 핵심 기능
 - 강아지 목록을 조회하는 API
