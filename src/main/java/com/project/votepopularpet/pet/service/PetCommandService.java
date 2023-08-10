@@ -8,7 +8,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,8 @@ public class PetCommandService {
     @Cacheable(value="pet-detail", key="#id", unless = "#result == null")
     public PetDetailDto findPetDetailDtoById(Long id) {
 
-        return petRepository.findById(id).map(PetDetailDto::of).orElseThrow(() -> new EntityNotFoundException("해당 정보를 찾을 수 없습니다."));
+        return petRepository.findById(id).map(PetDetailDto::of)
+            .orElseThrow(() -> new EntityNotFoundException("해당 정보를 찾을 수 없습니다."));
     }
 
     /**

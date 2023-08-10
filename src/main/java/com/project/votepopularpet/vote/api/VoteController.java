@@ -27,12 +27,14 @@ public class VoteController {
   private final VoteService voteService;
 
   /**
-   * Like, PetId
+   * Like 설정 (petId, userId) with message queue
+   *
    * @param like
    * @return
    */
   @PostMapping("/{petId}")
   public ResponseEntity<Void> voteForPetMessageQueue (@PathVariable Long petId, @RequestBody Likes like) throws JsonProcessingException {
+
     try {
       voteService.produceLikeVotes(petId, like);
     } catch (EntityNotFoundException e) {
@@ -42,10 +44,18 @@ public class VoteController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+  /**
+   * Like 설정 (petId, userId) without message queue
+   *
+   * @param petId
+   * @param like
+   * @return
+   * @throws JsonProcessingException
+   */
   @PostMapping("/test/{petId}")
-  public ResponseEntity<Void> voteForPet (@PathVariable Long petId, @RequestBody Likes like) throws JsonProcessingException {
+  public ResponseEntity<Void> voteForPet (@PathVariable Long petId, @RequestBody Likes like) {
+
     try {
-      System.out.println("!!!!!!!!!!!!!!");
       voteService.updateLikeVotes(petId, like);
     } catch (EntityNotFoundException e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

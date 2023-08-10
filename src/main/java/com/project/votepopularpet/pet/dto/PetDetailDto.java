@@ -1,7 +1,6 @@
 package com.project.votepopularpet.pet.dto;
 
 import com.project.votepopularpet.pet.entity.Pet;
-import com.project.votepopularpet.pet.entity.util.BaseEntity;
 import lombok.*;
 
 /**

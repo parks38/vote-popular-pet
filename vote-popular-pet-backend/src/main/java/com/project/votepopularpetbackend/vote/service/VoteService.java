@@ -21,6 +21,8 @@ public class VoteService {
   private final LikeRepository likeRepository;
 
   /**
+   * like 투표하기
+   * (투표시 동일한 petId, userId 매치가 있다면 update 수정)
    *
    * @param like
    */
@@ -28,6 +30,7 @@ public class VoteService {
 
     // 해당 값을 찾아서 동일한 것이 있다면 대체
     Optional<Likes> originalLike = likeRepository.findByUserIdAndPetId(like.getUserId(), like.getPet().getPetId());
+
     originalLike.ifPresentOrElse(orlike -> {
       orlike.setStatus(like.getStatus());
     }, () -> {

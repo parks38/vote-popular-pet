@@ -9,7 +9,6 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -60,15 +59,6 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
-//
-//    @Bean
-//    public StringRedisTemplate stringRedisTemplate() {
-//        final StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
-//        stringRedisTemplate.setKeySerializer(new StringRedisSerializer());
-//        stringRedisTemplate.setValueSerializer(new StringRedisSerializer());
-//        stringRedisTemplate.setConnectionFactory(redisConnectionFactory());
-//        return stringRedisTemplate;
-//    }
 
     @Bean
     public CacheManager cacheManager() { // Redis를 캐시 메모리로 사용하도록 구성하고 이후 캐시관련 애노테이션에서 사용됨

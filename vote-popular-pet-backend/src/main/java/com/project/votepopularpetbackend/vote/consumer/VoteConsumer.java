@@ -28,11 +28,12 @@ public class VoteConsumer {
   private final ObjectMapper objectMapper;
 
   /**
+   * 메세지 큐 받기
    *
    * @param message
    * @throws JsonProcessingException
    */
-  @RabbitListener(queues = SCHEDULE_QUEUE)
+  @RabbitListener(queues = SCHEDULE_QUEUE) // 메시지가 큐에 도착할 때 메서드가 자동 호출되도록 지정
   public void consume(String message) throws JsonProcessingException {
     Likes like = objectMapper.readValue(message, Likes.class);
     voteService.saveLikeVotes(like);
